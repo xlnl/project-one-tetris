@@ -16,6 +16,12 @@ MVP FOR TETRIS
             pieces are displayed through patterns of arrays, moving on its own (free up on eventlisteners 'click') 
             game loop --> what's happening at every frame
 
+            Win: 
+                fill rows + eliminate w/o reaching the top (OR BEFORE TIME ENDS)
+            
+            Lose: 
+                reach the top row of the game board
+
     Presentation
         Pieces - different colors, different shapes up to 7 pieces
             movement - rotates 360, side by side, down 
@@ -23,6 +29,10 @@ MVP FOR TETRIS
         Game board/canvas
             x columns, y rows
             units -> size (width x height)
+            figure out walls directions (top, right, bottom, left) (to detect collision + rotation movement)
+        
+        Display Player (up top right)
+            to track if winner
         
     Views
         ????
@@ -33,13 +43,23 @@ MVP FOR TETRIS
 
     DOM manipulation
         Canvas elements -> board, pieces, context
-        Collision detection
-        Movement between pieces
+        Movement between pieces -> movement handler function with keyCode
+            setTimer
+            increment down for each unit of game board
+            pieces rotate in place (no movement)
+            pieces after rotation = movement is same
+        Collision detection (HTML5 Recording @ 2:02:00+)
+            for piece rotation 
+                check if there's a collision after rotation
+                if there is a collision, figure out which side the collision happened (figure out how)
+            * account for width + height of pieces for coordinates
+            switch statements 
 
 BONUS
     Data
     Presentation
         Add a score board to track # of filled rows 
+        Include instructions
     Views
     Style
     DOM manipulation
