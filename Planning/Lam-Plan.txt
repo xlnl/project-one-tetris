@@ -43,23 +43,28 @@ MVP FOR TETRIS
 
     DOM manipulation
         Canvas elements -> board, pieces, context
-        Movement between pieces -> movement handler function with keyCode
+        Movement between pieces -> movement handler function with keyCode & key strokes
             setTimer
             increment down for each unit of game board
             pieces rotate in place (no movement)
             pieces after rotation = movement is same
-        Collision detection (HTML5 Recording @ 2:02:00+)
             for piece rotation 
                 check if there's a collision after rotation
                 if there is a collision, figure out which side the collision happened (figure out how)
             * account for width + height of pieces for coordinates
             switch statements 
+        Collision detection (HTML5 Recording @ 2:18:00+) => put in game loop
+            & clause, figure out collision coordinates (check piece coordinates again right & left walls + bottom game progress)
+            detectHit function => biggest if statement
+            
 
 BONUS
     Data
     Presentation
         Add a score board to track # of filled rows 
-        Include instructions
+        Include instructions via popup/button
+        Add pieces queue (which pieces/patten is up next)
     Views
     Style
     DOM manipulation
+        Add movement speed using velocity if timer
