@@ -1,0 +1,45 @@
+Technical Requirements
+Your app must:
+    Display a game in the browser
+    Switch turns between two players, or have the user play the computer (AI or obstacles)
+    Design logic for winning & visually display which player won
+    Include separate HTML / CSS / JavaScript files
+    Stick with KISS (Keep It Simple Stupid) and DRY (Don't Repeat Yourself) principles
+    Use Javascript for DOM manipulation
+    Deploy your game online, where the rest of the world can access it**
+    Use semantic markup for HTML and CSS (adhere to best practices)
+
+MVP FOR TETRIS 
+    Data
+        Game Logic: 
+            rotates game pieces (of varying sizes) to fill rows => add filled rows to scoreboard 
+            pieces are displayed through patterns of arrays, moving on its own (free up on eventlisteners 'click') 
+            game loop --> what's happening at every frame
+
+    Presentation
+        Pieces - different colors, different shapes up to 7 pieces
+            movement - rotates 360, side by side, down 
+            
+        Game board/canvas
+            x columns, y rows
+            units -> size (width x height)
+        
+    Views
+        ????
+
+    Style
+        Pieces - different colors, different shapes up to 7 pieces
+        Game board 
+
+    DOM manipulation
+        Canvas elements -> board, pieces, context
+        Collision detection
+        Movement between pieces
+
+BONUS
+    Data
+    Presentation
+        Add a score board to track # of filled rows 
+    Views
+    Style
+    DOM manipulation
