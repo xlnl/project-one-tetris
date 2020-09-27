@@ -17,10 +17,10 @@ MVP FOR TETRIS
             game loop --> what's happening at every frame
 
             Win: 
-                fill rows + eliminate w/o reaching the top (OR BEFORE TIME ENDS)
+                fill rows + eliminate w/o reaching the top 
             
             Lose: 
-                reach the top row of the game board
+                reach the top row of the game board -> all rows must contain some taken divs to be considered game over
 
     Presentation
         Pieces - different colors, different shapes up to 7 pieces
@@ -31,8 +31,7 @@ MVP FOR TETRIS
             units -> size (width x height)
             figure out walls directions (top, right, bottom, left) (to detect collision + rotation movement)
         
-        Display Player (up top right)
-            to track if winner
+        Add a score board to track # of filled rows
         
     Views
         ????
@@ -60,9 +59,7 @@ MVP FOR TETRIS
 
 BONUS
     Data
-    Presentation
-        Add a score board to track # of filled rows 
-        Include instructions via popup/button
+    Presentation 
         Add pieces queue (which pieces/patten is up next)
     Views
     Style

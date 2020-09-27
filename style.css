@@ -1,19 +1,15 @@
 body { 
     background-color: lavenderblush;
 }
-.board {
-    width: 240px;
-    height: 480px;
-    background-color: rgba(199, 201, 204, 0.699);
-    display: flex;
-    flex-wrap: wrap;
-}
 
-.board div {
-    width: 20px;
-    height: 20px;
-    background-color: rgb(206, 238, 253);
-
+#score{
+    display: inline-block;
 }
-/* Style
-Pieces - different colors, different shapes up to 7 pieces */
+div {
+    font-size: 25px;
+    text-align: center;
+}
+canvas {
+    display: block;
+    margin:0 auto;
+}
