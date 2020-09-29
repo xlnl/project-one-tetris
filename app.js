@@ -197,6 +197,8 @@ console.log('hewwo')
 //                  ctx.strokeStyle = "grey";
 //                  ctx.strokeRect(x*squareSize,y*squareSize,squareSize,squareSize);
 //                  }
+//         collision detection function 
+//         movemnents! -> rotating function + movement functions + control function (to move the pieces) + timer function (to auto drop piece per second)
 //         make it so that the walls locks in the pieces (so they don't protrude outside)
 //         make it so that once a row is all filled/taken: 1) that row is removed, score is counted, and we append a new row on top of the board
 //         score board
