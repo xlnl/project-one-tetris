@@ -1,190 +1,194 @@
-console.log('hewwo')
+console.log("hewwo")
+// VARIABLES & CONSTANTS  -- LET'S DRAW
+// the game's main piece, of which will be used to render + update (the canvas!)
+const game = document.getElementById("game");
+// this lets you draw and manipulate things on a canvas element in the game and includes info about colors, line width, fonts, and other graphic elements (the tool box!)
+var ctx = game.getContext("2d");
+// need to grab the score element to store the score after play completes a row/line
+const score = document.getElementById("score");
+// game board 
+// board dimensions
+const row = 24;
+const col = 12;
+// empty squares/divs w/ white bg (for now)
+const sqSize = 20;
+const empty = "lavenderblush";
+
+// drawing time! in this case, drawing a square (already got the size and empty constant)
+// fill color
+ctx.fillStyle = "lavenderblush";
+// line color
+ctx.strokeStyle = "gray";
+// line width
+ctx.lineWidth = 1;
+
+ctx.fillRect(sqSize, sqSize, sqSize, sqSize);
+ctx.strokeRect(sqSize,sqSize,sqSize,sqSize);
 
 
-// PSUEDOCODING
 
-// HTML set up -> create 288 divs with a container div with class 
-//     Create a start/pause button
-//     Create a score section (update later to allow for name input form button??)
-// CSS set up -> Styling the divs (basic for now) -> each div (20x20px) -> board (12x24divs)
-//     game board = width 240px; height: 480px
-// JS set up 
-//      VARIABLES & CONSTANTS  
-//         const canvas = document.getElementById("tetris");
-//         const ctx = cvs.getContext("2d");
-//         const score = document.getElementById("score");
-//         game pieces/tetrominoes
-//              drawing them and their rotations (create separate excel sheet with blueprint of all game pieces & their rotations)
-//              store the rotations of the game pieces in an array under their respective constants 
-//              const lTetro = 
-//                 	[
-//                 		[0, 1, 0],
-//                 		[0, 1, 0],
-//                 		[0, 1, 1]
-//                 	],
-//                 	[
-//                 		[0, 0, 0],
-//                 		[1, 1, 1],
-//                 		[1, 0, 0]
-//                 	],
-//                 	[
-//                 		[1, 1, 0],
-//                 		[0, 1, 0],
-//                 		[0, 1, 0]
-//                 	],
-//                 	[
-//                 		[0, 0, 1],
-//                 		[1, 1, 1],
-//                 		[0, 0, 0]
-//                 	]
-//                 ];
-//              const jTetro = [
-//                 	[
-//                 		[0, 1, 0],
-//                 		[0, 1, 0],
-//                 		[1, 1, 0]
-//                 	],
-//                 	[
-//                 		[1, 0, 0],
-//                 		[1, 1, 1],
-//                 		[0, 0, 0]
-//                 	],
-//                 	[
-//                 		[0, 1, 1],
-//                 		[0, 1, 0],
-//                 		[0, 1, 0]
-//                 	],
-//                 	[
-//                 		[0, 0, 0],
-//                 		[1, 1, 1],
-//                 		[0, 0, 1]
-//                 	]
-//                 ];
-//              const sTetro = [
-//                 	[
-//                 		[0, 1, 1],
-//                 		[1, 1, 0],
-//                 		[0, 0, 0]
-//                 	],
-//                 	[
-//                 		[0, 1, 0],
-//                 		[0, 1, 1],
-//                 		[0, 0, 1]
-//                 	],
-//                 	[
-//                 		[0, 0, 0],
-//                 		[0, 1, 1],
-//                 		[1, 1, 0]
-//                 	],
-//                 	[
-//                 		[1, 0, 0],
-//                 		[1, 1, 0],
-//                 		[0, 1, 0]
-//                 	]
-//                 ];
-//              const zTetro = [
-//                 	[
-//                 		[1, 1, 0],
-//                 		[0, 1, 1],
-//                 		[0, 0, 0]
-//                 	],
-//                 	[
-//                 		[0, 0, 1],
-//                 		[0, 1, 1],
-//                 		[0, 1, 0]
-//                 	],
-//                 	[
-//                 		[0, 0, 0],
-//                 		[1, 1, 0],
-//                 		[0, 1, 1]
-//                 	],
-//                 	[
-//                 		[0, 1, 0],
-//                 		[1, 1, 0],
-//                 		[1, 0, 0]
-//                 	]
-//                 ];
-//              const oTetro = [
-//                 	[
-//                 		[0, 0, 0],
-//                 		[0, 1, 1],
-//                 		[0, 1, 1]
-//                 	],
-//                 	[
-//                 		[0, 0, 0],
-//                 		[1, 1, 0],
-//                 		[1, 1, 0]
-//                 	],
-//                 	[
-//                 		[1, 1, 0],
-//                 		[1, 1, 0],
-//                 		[0, 0, 0]
-//                 	],
-//                 	[
-//                 		[0, 1, 1],
-//                 		[0, 1, 1],
-//                 		[0, 0, 0]
-//                 	]
-//                 ];
-//              const iTetro = [
-//                 	[
-//                 		[0, 0, 0, 0],
-//                 		[1, 1, 1, 1],
-//                 		[0, 0, 0, 0],
-//                 		[0, 0, 0, 0],
-//                 	],
-//                 	[
-//                 		[0, 0, 1, 0],
-//                 		[0, 0, 1, 0],
-//                 		[0, 0, 1, 0],
-//                 		[0, 0, 1, 0],
-//                 	],
-//                 	[
-//                 		[0, 0, 0, 0],
-//                 		[0, 0, 0, 0],
-//                 		[1, 1, 1, 1],
-//                 		[0, 0, 0, 0],
-//                 	],
-//                 	[
-//                 		[0, 1, 0, 0],
-//                 		[0, 1, 0, 0],
-//                 		[0, 1, 0, 0],
-//                 		[0, 1, 0, 0],
-//                 	]
-//                 ];
-//              const tTetro = [
-//                 	[
-//                 		[0, 0, 0],
-//                 		[0, 1, 0],
-//                 		[1, 1, 1]
-//                 	],
-//                 	[
-//                 		[1, 0, 0],
-//                 		[1, 1, 0],
-//                 		[1, 0, 0]
-//                 	],
-//                 	[
-//                 		[1, 1, 1],
-//                 		[0, 1, 0],
-//                 		[0, 0, 0]
-//                 	],
-//                 	[
-//                 		[0, 0, 1],
-//                 		[0, 1, 1],
-//                 		[0, 0, 1]
-//                 	]
-//                 ];
-//              const pieces = [lTetro, jTetro, zTetro, sTetro oTetro, iTetro, tTetro]
-//         make sure the pieces that land at the bottom gets frozen/locked
-//         game board
-//              board dimensions
-//                  const row = 24;
-//                  const col = 12;
-//              empty squares/divs w/ white bg (for now)
-//                  const squareSize = 20;
-//                  const empty = "#FFFFF";
-//              define board array 
-//                  let board = [];
+
+// game pieces/tetrominoes (more details in "Tetris-Game-Piece-Details.png")
+const lTetro = [
+        [
+            [0, 1, 0],
+            [0, 1, 0],
+            [0, 1, 1]
+        ],
+        [
+            [0, 0, 0],
+            [1, 1, 1],
+            [1, 0, 0]
+        ],
+        [
+            [1, 1, 0],
+            [0, 1, 0],
+            [0, 1, 0]
+        ],
+        [
+            [0, 0, 1],
+            [1, 1, 1],
+            [0, 0, 0]
+        ]
+    ];
+const jTetro = [
+        [
+            [0, 1, 0],
+            [0, 1, 0],
+            [1, 1, 0]
+        ],
+        [
+            [1, 0, 0],
+            [1, 1, 1],
+            [0, 0, 0]
+        ],
+        [
+            [0, 1, 1],
+            [0, 1, 0],
+            [0, 1, 0]
+        ],
+        [
+            [0, 0, 0],
+            [1, 1, 1],
+            [0, 0, 1]
+        ]
+    ];
+const sTetro = [
+        [
+            [0, 1, 1],
+            [1, 1, 0],
+            [0, 0, 0]
+        ],
+        [
+            [0, 1, 0],
+            [0, 1, 1],
+            [0, 0, 1]
+        ],
+        [
+            [0, 0, 0],
+            [0, 1, 1],
+            [1, 1, 0]
+        ],
+        [
+            [1, 0, 0],
+            [1, 1, 0],
+            [0, 1, 0]
+        ]
+    ];
+const zTetro = [
+        [
+            [1, 1, 0],
+            [0, 1, 1],
+            [0, 0, 0]
+        ],
+        [
+            [0, 0, 1],
+            [0, 1, 1],
+            [0, 1, 0]
+        ],
+        [
+            [0, 0, 0],
+            [1, 1, 0],
+            [0, 1, 1]
+        ],
+        [
+            [0, 1, 0],
+            [1, 1, 0],
+            [1, 0, 0]
+        ]
+    ];
+const oTetro = [
+        [
+            [0, 0, 0],
+            [0, 1, 1],
+            [0, 1, 1]
+        ],
+        [
+            [0, 0, 0],
+            [1, 1, 0],
+            [1, 1, 0]
+        ],
+        [
+            [1, 1, 0],
+            [1, 1, 0],
+            [0, 0, 0]
+        ],
+        [
+            [0, 1, 1],
+            [0, 1, 1],
+            [0, 0, 0]
+        ]
+    ];
+const iTetro = [
+        [
+            [0, 0, 0, 0],
+            [1, 1, 1, 1],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ],
+        [
+            [0, 0, 1, 0],
+            [0, 0, 1, 0],
+            [0, 0, 1, 0],
+            [0, 0, 1, 0],
+        ],
+        [
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [1, 1, 1, 1],
+            [0, 0, 0, 0],
+        ],
+        [
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+        ]
+    ];
+const tTetro = [
+        [
+            [0, 0, 0],
+            [0, 1, 0],
+            [1, 1, 1]
+        ],
+        [
+            [1, 0, 0],
+            [1, 1, 0],
+            [1, 0, 0]
+        ],
+        [
+            [1, 1, 1],
+            [0, 1, 0],
+            [0, 0, 0]
+        ],
+        [
+            [0, 0, 1],
+            [0, 1, 1],
+            [0, 0, 1]
+        ]
+    ];
+
+// const pieces = [lTetro, jTetro, zTetro, sTetro oTetro, iTetro, tTetro]
 //   
 //     FUNCTIONS
 //         create the rows & columns
