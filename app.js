@@ -177,11 +177,10 @@ const tTetro = [
 // it's drawing time! 
 // creating the squares using canvas - modularizing!
 function drawBox(x, y, color) {
-    x = x*box;
-    y = x*box;
     ctx.fillStyle = color;
     ctx.fillRect(x*box, y*box, box, box); // note: ctx.fillRext(x,y,width, height); x & y is the location coordinate of the square 
-    ctx.strokeStyle = 'gray';
+    ctx.strokeStyle = 'grey';
+    ctx.lineWidth = 1; // why isn't the line width working...
     ctx.fillRect(x*box, y*box, box, box);
 }
 
@@ -202,15 +201,16 @@ function drawBoard() {
         }
     }
 }
-console.log(drawBoard())
+
 // now drawing the pieces using constructor function 
 function Pieces(tetro, color) {
     this.tetro = tetro;
     this.color = color;
-    this.tetroI = 0;
+    this.tetroI = 0; // starting with first rotation index first
     this.liveTetro = this.tetro[this.tetroI];
-    this.x = 3;
-    this.y = -2;
+    // starting coordinates of the pieces
+    this.x = 4; // 4 units right from origin 
+    this.y = 0; // 0 units from origin  
 }
 
 // const pieces = [lTetro, jTetro, sTetro, zTetro, oTetro, iTetro, tTetro]
@@ -225,9 +225,22 @@ const pieces = [
     [tTetro, "teal"]
 ];
 
-console.log(pieces);
-// 
-//         collision detection function 
+// making the squares filled with colors now! 
+// get the coordinates/location of the units for live tetros
+// function.prototype property => allows you to add new properties & methods to objects constructors: https://www.w3schools.com/js/js_object_prototypes.asp
+// the other way of class extend?? but with objects 
+Pieces.prototype.fill = function(color) {
+    for(r=0; r<this.liveTetro.length; r++) {
+        for(c=o; c<this.liveTetro.length; c++) {
+            if(this.liveTetro[r][c]) {
+                drawBox(this.x + c, this. y + r, color); // based on guidance from canvas crawler zoom session recording
+                // r represents row increments; c represents column increments (both based on the width & height of the tetro)
+            }
+        }
+    }
+}
+
+// collision detection function 
 //         movements! -> rotating function + movement functions + control function (to move the pieces) + timer function (to auto drop piece per second)
 //         make it so that the walls locks in the pieces (so they don't protrude outside)
 //         make it so that once a row is all filled/taken: 1) that row is removed, score is counted, and we append a new row on top of the board
@@ -236,3 +249,9 @@ console.log(pieces);
 //              to keep score, must code somewhere to keep count of filled rows
 //         start/pause button
 //              const startBtn = document.querySelector('#start-button')
+
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    drawBoard();
+    console.log(pieces);
+})
