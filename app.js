@@ -7,10 +7,13 @@ var ctx = game.getContext("2d");
 // need to grab the score element to store the score after play completes a row/line
 const scoreDisplay = document.getElementById("score");
 // game board 
-// board dimensions - row = 24; col = 12;
+// board dimensions 
+const row = 24;
+const col = 12;
 // empty squares/divs marked by lavenderblush color :^)
 const box = 20;
 const empty = "lavenderblush";
+let score = 0; 
 
 // game pieces/tetrominoes (more details in "Tetris-Game-Piece-Details.png")
 // 0 = empty/false; 1 = live/true
@@ -212,13 +215,14 @@ function Pieces(tetro, color) {
     this.color = color;
     this.liveTetro = this.tetro[this.tetroI]; // accessing the relative piece we'll be playing (aka tetro[0])
     // starting coordinates of the pieces
-    this.x = 4; // 4 units right from origin 
-    this.y = 0; // 0 units from origin  
+    this.x = 5; // 4 units right from origin 
+    this.y = -1; // -1 units from origin  
 }
 
+drawBoard();
 // const pieces = [lTetro, jTetro, sTetro, zTetro, oTetro, iTetro, tTetro]
 // instantiating the colors; 
-const pieces = [
+const pieces = [ // update colors later
     [lTetro, "yellow"],
     [jTetro, "pink"],
     [sTetro, "orange"],
@@ -262,13 +266,16 @@ Pieces.prototype.hide = function () { // same logic but to make it empty/unfill 
     this.fill(empty)
 }
 
-// live piece to move down 
+// live piece to move down, check for collision here also (if no collision, continue movement)
 Pieces.prototype.down = function () {
     if(!this.collision(0,1,this.liveTetro)) { // undraw the piece first, then increment just the y position by 1, then draw the piece in the next position down
-        this.hide(); // this will ihide the piece before it so it doesn't look like it's lagging/getting bigger
+        this.hide(); // this will hide the piece before it so it doesn't look like it's lagging/getting bigger
         this.y++;
         this.show();
-    } // update to capture frozen piece & generate new randomized piece 
+    } else {
+        this.freeze(); // Cannot read property '0' of undefined at Pieces.down (app.js:274)
+        random = randPieces();
+    }
 }
 // live piece to move left 
 Pieces.prototype.left = function () {
@@ -286,88 +293,117 @@ Pieces.prototype.right = function () {
         this.show();
     }
 }
-// NOTE: event.key instead of event.keyCode Description:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+
 // piece to rotate
-// make it so that the walls locks in the pieces (so they don't protrude outside) 
+// make it so that the walls locks in the pieces (so they don't protrude outside) - check for collision
 Pieces.prototype.rotate = function () {
     // tetroI = 0, starting rotation index 
     let turn = this.tetro[(this.tetroI + 1) % this.tetro.length]; // declaring the next index of rotation array of relative live tetro by adding 1 index (first rotation) modulus live tetro index
-    let bound = 0; // declaring position of bound, it's 0 unless the pieces go beyond the left and right walls
-    if(this.collision(0,0,turn)) {
-        if(this.x > col/2) { // 
-            bound = -1; // right wall, so have piece go left
+    let bounce = 0; // declaring position of bound, it's 0 unless the pieces go beyond the left and right walls
+    if(this.collision(0,0,turn)) { // check for collision after rotation
+        if(this.x > col/2) { // determines right or left wall boundaries
+            bounce = -1; // if collision detected: right wall, so have piece bounce left
         } else {  
-            bound = 1; // left wall, so have piece go right
+            bounce = 1; // if collision detected: left wall, so have piece bounce right
         }
     } 
-    if(!this.collision(bound,0,turn)) {
+    if(!this.collision(bounce,0,turn)) { 
         this.hide();
-        this.x =- bound;
+        this.x =- bounce;
         this.tetroI = (this.tetroI + 1) % this.tetro.length; // tetro rotation index = (0+1)%4 = 1
         this.liveTetro = this.tetro[this.tetroI];
         this.show();
     }
 }
 
-function control() {
-    document.addEventListener("keydown", e => {
-        const k = e.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
-        if(k = "ArrowLeft") {
-            p.left();
-            let start = Date.now();
-        } else if(k = "ArrowUp") {
-            p.rotate();
-            let start = Date.now();
-        } else if(k = "ArrowRight") {
-            p.right();
-            let start = Date.now();
-        } else if(k = "ArrowDown") {
-            p.down();
+// score board & gameover function
+// make it so that once a row is all filled/taken: 1) that row is removed, score is counted, and we append a new row on top of the board
+// to keep score, must code somewhere to keep count of filled rows
+// freezing the pieces and detecting full rows
+Pieces.prototype.freeze = function() {
+    for(r=0; r<this.liveTetro.length; r++) {
+        for(c=0; c<this.liveTetro.length; c++) {
+            if(!this.liveTetro.length[r][c]) { // Cannot read property '0' of undefined at Pieces.freeze
+                continue;
+            } 
+            if(this.y + r <0) {
+                alert("Game Over! Better luck next time!");
+                gameOver = true;
+                break;
+            }
+            board[this.y+r][this.x+c] = this.color;
         }
-    });
+    }
+    for (r=0; r<row; r++) {
+        let fullRow = true;
+        for(c=0; c<col; c++) {
+            fullRow = fullRow && (board[r][c] != empty);
+        }
+        if(fullRow) {
+            for(y=r; y>1; y--) {
+                for(c=0; c<col; c++) {
+                    board[y][c] = board[y-1][c];
+                }
+            }
+            for(c=0; c<col; c++) {
+                board[0][c] = empty;
+            }
+        }
+        score += 20
+    }
+    drawboard();
+    scoreDisplay.innerHTML = score;
 }
-
-
-
 // collision detection function 
-Pieces.prototype.collision = function(x,y,shape) {
-    for(r=0; r<shape.length; r++) {
-        for (c=0; c<shape.length;c++) {
-            if(!piece[r][c]) {
+Pieces.prototype.collision = function(x,y,p) { // need to check if piece (p) movement would collide using x,y coordinatoes 
+    //(false - move); (true - freeze); check for vacant boxes
+    for(r=0; r<p.length; r++) {
+        for (c=0; c<p.length;c++) {
+            if(!p[r][c]) { // if box is empty, continue moving
                 continue;
             }
             let afterX = this.x + c + x;
             let afterY = this.y + r + y; 
-
-            if(afterX<0 || afterX >= col || afterY >= row) {
+            if(afterX<0 || afterX >= col || afterY >= row) { // if any incremented boxes on x,y coordinates = out of bounds, freeze
                 return true;
             }
-            if(afterY<0) {
+            if(afterY<0) { // if any of incremented boxes on y coordinates = within bounds, continue moving because board[-1][x] will make game crash
                 continue;
             }
-            if(board[afterY][afterX] != empty) {
+            if(board[afterY][afterX] != empty) { // if any of the incremented boxes is touching frozen/filled box, freeze
                 return true;
             }
         }
     }
 }
 
-// score board & gameover function
-// make it so that once a row is all filled/taken: 1) that row is removed, score is counted, and we append a new row on top of the board
-// to keep score, must code somewhere to keep count of filled rows
-
-let score = 0; 
-
+// NOTE: event.key instead of event.keyCode Description:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+function arrows(e) {
+    if(e.key == "ArrowLeft") {
+        random.left();
+        start = Date.now();
+    } else if(e.key == "ArrowUp") {
+        random.rotate();
+        start = Date.now();
+    } else if(e.key == "ArrowRight") {
+        random.right();
+        start = Date.now();
+    } else if(e.key == "ArrowDown") {
+        random.down();
+    }
+}
+document.addEventListener("keydown", arrows);
 
 // start/pause button
-//      const startBtn = document.querySelector('#start-button')
+// const startBtn = document.querySelector('#start-button')
+
 let start = Date.now();
 let gameOver = false;
 function fall() {
     let now = Date.now();
     let time = now - start;
     if(time > 1000) {
-        p.down();
+        random.down(); // Cannot read property '0' of undefined at fall (app.js:403)
         start = Date.now();
     }
     if(!gameOver) {
@@ -375,8 +411,4 @@ function fall() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', ()=>{
-    drawBoard();
-    console.log(random);
-    fall();
-})
+fall();
