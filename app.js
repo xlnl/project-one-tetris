@@ -4,6 +4,7 @@ console.log("hewwo")
 const game = document.getElementById("game");
 // this lets you draw and manipulate things on a canvas element in the game and includes info about colors, line width, fonts, and other graphic elements (the tool box!)
 var ctx = game.getContext("2d");
+const startButt = document.getElementById("start-button");
 // need to grab the score element to store the score after play completes a row/line
 const scoreDisplay = document.getElementById("score");
 // game board 
@@ -206,19 +207,18 @@ function drawBoard() {
         }
     }
 }
-
+drawBoard();
 // now drawing the pieces using constructor function 
 function Pieces(tetro, color) {
     this.tetro = tetro;
-    this.tetroI = 0; // starting with first rotation index first
     this.color = color;
+    this.tetroI = 0; // starting with first rotation index first
     this.liveTetro = this.tetro[this.tetroI]; // accessing the relative piece we'll be playing (aka tetro[0])
     // starting coordinates of the pieces
     this.x = 5; // 4 units right from origin 
     this.y = -1; // -1 units from origin  
 }
 
-drawBoard();
 // const pieces = [lTetro, jTetro, sTetro, zTetro, oTetro, iTetro, tTetro]
 // instantiating the colors; 
 const pieces = [ // update colors later
@@ -238,6 +238,8 @@ function randPieces() {
 }
 
 let n = randPieces(); // (n = new piece)
+
+
 // making the squares filled with colors now! 
 // get the coordinates/location of the units for live tetros
 // function.prototype property => allows you to add new properties & methods to objects constructors: https://www.w3schools.com/js/js_object_prototypes.asp
@@ -320,7 +322,7 @@ let score = 0;
 Pieces.prototype.freeze = function() { // changing the colors of the board units
     for(r=0; r<this.liveTetro.length; r++) { // loop through all the board
         for(c=0; c<this.liveTetro.length; c++) { 
-            if(!this.liveTetro.length[r][c]) { // Cannot read property '0' of undefined at Pieces.freeze
+            if(!this.liveTetro[r][c]) { 
                 continue; // skip the vacant squares
             } 
             if(this.y + r <0) { // reached the top
@@ -349,7 +351,7 @@ Pieces.prototype.freeze = function() { // changing the colors of the board units
         }
         
     }
-    drawboard();
+    drawBoard();
     scoreDisplay.innerHTML = score;
 }
 // collision detection function 
@@ -409,4 +411,5 @@ function fall() {
     }
 }
 
-fall();
+startButt.addEventListener("click", fall);
+
