@@ -9,7 +9,9 @@ div {
     font-size: 25px;
     text-align: center;
 }
-canvas {
+#game {
     display: block;
     margin:0 auto;
+    /* border-width: 4px;
+    border-color: grey; */
 }
