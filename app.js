@@ -13,7 +13,6 @@ const col = 12;
 // empty squares/divs marked by lavenderblush color :^)
 const box = 20;
 const empty = "lavenderblush";
-let score = 0; 
 
 // game pieces/tetrominoes (more details in "Tetris-Game-Piece-Details.png")
 // 0 = empty/false; 1 = live/true
@@ -232,6 +231,13 @@ const pieces = [ // update colors later
     [tTetro, "teal"]
 ];
 
+// randomize the pieces
+function randPieces() {
+    let rand = Math.floor(Math.random()*pieces.length); // randomize all the pieces in the pieces array based on indices (includes color)
+    return new Pieces(pieces[rand][0],pieces[rand][1]); // returns a new Piece object (randomized piece shape and color as the parameter passed through)
+}
+
+let n = randPieces(); // (n = new piece)
 // making the squares filled with colors now! 
 // get the coordinates/location of the units for live tetros
 // function.prototype property => allows you to add new properties & methods to objects constructors: https://www.w3schools.com/js/js_object_prototypes.asp
@@ -248,15 +254,6 @@ Pieces.prototype.fill = function(color) { // in this case, fill is a method
         }
     }
 }
-
-// randomize the pieces
-function randPieces() {
-    let rand = Math.floor(Math.random()*pieces.length); // randomize all the pieces in the pieces array based on indices (includes color)
-    return new Pieces(pieces[rand][0],pieces[rand][1]); // returns a new Piece object (randomized piece shape and color as the parameter passed through)
-}
-
-let random = randPieces();
-
 // movements! -> rotating function + movement functions + control function (to move the pieces) + timer function (to auto drop piece per second)
 // drawing (fill it with color to draw) and undrawing the pieces to the board (making it empty)
 Pieces.prototype.show = function () {
@@ -274,7 +271,7 @@ Pieces.prototype.down = function () {
         this.show();
     } else {
         this.freeze(); // Cannot read property '0' of undefined at Pieces.down (app.js:274)
-        random = randPieces();
+        n = randPieces();
     }
 }
 // live piece to move left 
@@ -315,41 +312,42 @@ Pieces.prototype.rotate = function () {
         this.show();
     }
 }
-
+let score = 0;
 // score board & gameover function
 // make it so that once a row is all filled/taken: 1) that row is removed, score is counted, and we append a new row on top of the board
 // to keep score, must code somewhere to keep count of filled rows
 // freezing the pieces and detecting full rows
-Pieces.prototype.freeze = function() {
-    for(r=0; r<this.liveTetro.length; r++) {
-        for(c=0; c<this.liveTetro.length; c++) {
+Pieces.prototype.freeze = function() { // changing the colors of the board units
+    for(r=0; r<this.liveTetro.length; r++) { // loop through all the board
+        for(c=0; c<this.liveTetro.length; c++) { 
             if(!this.liveTetro.length[r][c]) { // Cannot read property '0' of undefined at Pieces.freeze
-                continue;
+                continue; // skip the vacant squares
             } 
-            if(this.y + r <0) {
-                alert("Game Over! Better luck next time!");
+            if(this.y + r <0) { // reached the top
+                // alert("Game Over! Better luck next time!"); // update to not include alert but just stop the game and send a display text
                 gameOver = true;
-                break;
+                break; // break from loop
             }
-            board[this.y+r][this.x+c] = this.color;
+            board[this.y+r][this.x+c] = this.color; // this will lock the piece based on square coordinates and its color
         }
-    }
-    for (r=0; r<row; r++) {
-        let fullRow = true;
-        for(c=0; c<col; c++) {
-            fullRow = fullRow && (board[r][c] != empty);
+    } // removing filled row
+    for (r=0; r<row; r++) { // loop over just the rows
+        let full = true; 
+        for(c=0; c<col; c++) { // loop over the columns now
+            full = full && (board[r][c] != empty); // row full AND not empty
         }
-        if(fullRow) {
+        if(full) { // if row is full, move down the rows and add another row 
             for(y=r; y>1; y--) {
                 for(c=0; c<col; c++) {
                     board[y][c] = board[y-1][c];
                 }
-            }
+            } // delete one row
             for(c=0; c<col; c++) {
-                board[0][c] = empty;
+                board[0][c] = empty; // add another one
             }
+            score += 20
         }
-        score += 20
+        
     }
     drawboard();
     scoreDisplay.innerHTML = score;
@@ -378,21 +376,21 @@ Pieces.prototype.collision = function(x,y,p) { // need to check if piece (p) mov
 }
 
 // NOTE: event.key instead of event.keyCode Description:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
-function arrows(e) {
+function movementHandler(e) {
     if(e.key == "ArrowLeft") {
-        random.left();
+        n.left();
         start = Date.now();
     } else if(e.key == "ArrowUp") {
-        random.rotate();
+        n.rotate();
         start = Date.now();
     } else if(e.key == "ArrowRight") {
-        random.right();
+        n.right();
         start = Date.now();
     } else if(e.key == "ArrowDown") {
-        random.down();
+        n.down();
     }
 }
-document.addEventListener("keydown", arrows);
+document.addEventListener("keydown", movementHandler);
 
 // start/pause button
 // const startBtn = document.querySelector('#start-button')
@@ -403,7 +401,7 @@ function fall() {
     let now = Date.now();
     let time = now - start;
     if(time > 1000) {
-        random.down(); // Cannot read property '0' of undefined at fall (app.js:403)
+        n.down(); // Cannot read property '0' of undefined at fall (app.js:403)
         start = Date.now();
     }
     if(!gameOver) {
