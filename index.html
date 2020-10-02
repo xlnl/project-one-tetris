@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tetris</title>
+    <title>Tootris</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Tetris!</h1>
-    <container>
-        <div>Score: <span id="score">0</span></div>
-        <button id="start-button">Start</button>
+    <h1>Toot Toot!</h1>
+    <h4>Welcome to the bootiful game of Tootris!</h4>
+    <div id="magic-butt"></div>
+    <container class= "game-bg" id="game-board">
         <canvas id="game" width="240" height="480"></canvas>
+        <container id="score-display">
+            <div>Score: <span id="score">0</span></div>
+            <button id="refresh-button">Refresh</button>
+            <button id="start-button">Start</button>
+        </container>
     </container>
     <script src="app.js"></script>
 </body>

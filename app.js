@@ -5,6 +5,7 @@ const game = document.getElementById("game");
 // this lets you draw and manipulate things on a canvas element in the game and includes info about colors, line width, fonts, and other graphic elements (the tool box!)
 var ctx = game.getContext("2d");
 const startButt = document.getElementById("start-button");
+const freshButt = document.getElementById("refresh-button");
 // need to grab the score element to store the score after play completes a row/line
 const scoreDisplay = document.getElementById("score");
 // game board 
@@ -13,7 +14,7 @@ const row = 24;
 const col = 12;
 // empty squares/divs marked by lavenderblush color :^)
 const box = 20;
-const empty = "lavenderblush";
+const empty = "white";
 
 // game pieces/tetrominoes (more details in "Tetris-Game-Piece-Details.png")
 // 0 = empty/false; 1 = live/true
@@ -222,13 +223,13 @@ function Pieces(tetro, color) {
 // const pieces = [lTetro, jTetro, sTetro, zTetro, oTetro, iTetro, tTetro]
 // instantiating the colors; 
 const pieces = [ // update colors later
-    [lTetro, "yellow"],
-    [jTetro, "pink"],
-    [sTetro, "orange"],
-    [zTetro, "red"],
-    [oTetro, "green"],
-    [iTetro, "purple"],
-    [tTetro, "teal"]
+    [lTetro, "#805e4d"],
+    [jTetro, "#4a403b"],
+    [sTetro, "#4a352b"],
+    [zTetro, "#917c64"],
+    [oTetro, "#87571f"],
+    [iTetro, "#d9984c"],
+    [tTetro, "#9e8470"]
 ];
 
 // randomize the pieces
@@ -315,6 +316,8 @@ Pieces.prototype.rotate = function () {
     }
 }
 let score = 0;
+let message = document.querySelector("h4");
+let flush = document.getElementById("magic-butt");
 // score board & gameover function
 // make it so that once a row is all filled/taken: 1) that row is removed, score is counted, and we append a new row on top of the board
 // to keep score, must code somewhere to keep count of filled rows
@@ -323,10 +326,11 @@ Pieces.prototype.freeze = function() { // changing the colors of the board units
     for(r=0; r<this.liveTetro.length; r++) { // loop through all the board
         for(c=0; c<this.liveTetro.length; c++) { 
             if(!this.liveTetro[r][c]) { 
+                flush.style.display = "block"
                 continue; // skip the vacant squares
             } 
             if(this.y + r <0) { // reached the top
-                // alert("Game Over! Better luck next time!"); // update to not include alert but just stop the game and send a display text
+                message.innerText = "Game Over! Please flush your pieces, and start again!"
                 gameOver = true;
                 break; // break from loop
             }
@@ -347,7 +351,7 @@ Pieces.prototype.freeze = function() { // changing the colors of the board units
             for(c=0; c<col; c++) {
                 board[0][c] = empty; // add another one
             }
-            score += 20
+            score += 120
         }
         
     }
@@ -403,7 +407,7 @@ function fall() {
     let now = Date.now();
     let time = now - start;
     if(time > 1000) {
-        n.down(); // Cannot read property '0' of undefined at fall (app.js:403)
+        n.down(); 
         start = Date.now();
     }
     if(!gameOver) {
@@ -411,5 +415,7 @@ function fall() {
     }
 }
 
+
 startButt.addEventListener("click", fall);
+// freshButt.addEventListener("click", refresh);
 
