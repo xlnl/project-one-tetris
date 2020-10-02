@@ -16,14 +16,9 @@ h4 {
     font-family: 'Press Start 2P', cursive;
 }
 
-/* #magic-butt {
-    background-image: url("https://assets.website-files.com/5c8b2e2664f8768dfb1ef7ff/5d25c10a27bddd0b48ab6531_Magic-Butt.gif");
-    background-size: 200px;
-    background-position: center;
-    width: 200px;
-    height: 200px;
-    text-align: center;
-} */
+container {
+    height: 480px;
+}
 
 #game-board {
     display: flex;
@@ -42,7 +37,7 @@ h4 {
 
 #score-display {
     flex-direction: column; 
-    flex-wrap: nowrap;
+    flex-wrap: wrap-reverse;
     justify-content: space-around;
     align-content: stretch;
     order: 2;
