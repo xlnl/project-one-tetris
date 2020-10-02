@@ -2,24 +2,22 @@ body {
     background-image: url("https://images.pond5.com/toilet-bathroom-background-footage-086469151_prevstill.jpeg");
     font-family: 'Press Start 2P', cursive;
 }
-h1, h4, #magic-butt{
+h1, h4 {
     text-align: center;
+    color: rgb(70, 49, 12);
 }
-
 h1 {
     font-family: 'Modak', cursive;
+    color: rgb(70, 49, 12);
     font-size: 50px;
     margin: 0 auto; 
 }
-
 h4 {
     font-family: 'Press Start 2P', cursive;
 }
-
 container {
     height: 480px;
 }
-
 #game-board {
     display: flex;
     flex-direction: row;
@@ -27,27 +25,34 @@ container {
     justify-content: center;
     align-items: flex-end;
 }
-
 #game {
     display: block;
     margin: 0px 50px 0px 50px;
     align-self: center;
     order: 1;
 }
-
+#up-next {
+    font-size: 15px;
+    height: 200px;
+}
 #score-display {
+    height: 100%;
+    display:flex;
     flex-direction: column; 
     flex-wrap: wrap-reverse;
-    justify-content: space-around;
+    justify-content: space-between;
     align-content: stretch;
     order: 2;
     text-align: center;
 }
-
+#score-element {
+    font-size: 15px;
+    color: rgb(93, 94, 63);
+}
 #score {
     font-family: 'Press Start 2P', cursive;
     display: inline-block;
-    font-size: 25px;
+    font-size: 15px;
     text-align: center;
 }
 
@@ -57,18 +62,17 @@ container {
     background: url("https://assets.website-files.com/5c8b2e2664f8768dfb1ef7ff/5c8b309da72c5c78fa432d9c_flexing-butt.gif");
     background-position: center;
     background-size: 50%;
-    margin: 20px;
+    margin: 10px;
     width: 150px;
     height: 50px;
 }
-
 #refresh-button {
     font-family: 'Press Start 2P', cursive;
     border-radius: 10px;
     background: url("https://assets.website-files.com/5c8b2e2664f8768dfb1ef7ff/5d25c10a27bddd0b48ab6531_Magic-Butt.gif");
     background-position: center;
     background-size: 50%;
-    margin: 20px;
+    margin: 10px;
     width: 150px;
     height: 50px;
 }

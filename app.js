@@ -1,9 +1,10 @@
-console.log("hewwo")
 // VARIABLES & CONSTANTS  -- LET'S DRAW
 // the game's main piece, of which will be used to render + update (the canvas!)
 const game = document.getElementById("game");
 // this lets you draw and manipulate things on a canvas element in the game and includes info about colors, line width, fonts, and other graphic elements (the tool box!)
 var ctx = game.getContext("2d");
+// const upNext = document.getElementById("up-next");
+// var nextCtx = upNext.getContext('2d');
 const startButt = document.getElementById("start-button");
 const freshButt = document.getElementById("refresh-button");
 // need to grab the score element to store the score after play completes a row/line
@@ -15,7 +16,6 @@ const col = 12;
 // empty squares/divs marked by lavenderblush color :^)
 const box = 20;
 const empty = "white";
-
 // game pieces/tetrominoes (more details in "Tetris-Game-Piece-Details.png")
 // 0 = empty/false; 1 = live/true
 const lTetro = [
@@ -177,7 +177,6 @@ const tTetro = [
         ]
 ];
 
-   
 // FUNCTIONS
 // it's drawing time! 
 // creating the squares using canvas - modularizing!
@@ -190,7 +189,6 @@ function drawBox(x, y, color) {
     // ctx.fillRect(4*20, 0*20, 20, 20)
     ctx.strokeRect(x*box, y*box, box, box);
 }
-
 // creating the board
 let board = [];
 for (r=0; r<24; r++) { // for loop for the rows
@@ -199,7 +197,6 @@ for (r=0; r<24; r++) { // for loop for the rows
         board[r][c] = empty // make it empty (shown as lavenderblush)
     }
 }
-
 // now drawing the board
 function drawBoard() {
     for(r=0; r<24; r++){
@@ -219,7 +216,25 @@ function Pieces(tetro, color) {
     this.x = 5; // 4 units right from origin 
     this.y = -1; // -1 units from origin  
 }
+// drawing displayNext board
+// let nextBoard = [];
+// for (r=0; r<5; r++) { // for loop for the rows
+//     nextBoard[r] = []; // store board with index of r into an empty array
+//     for (c=0; c<5; c++) { // for loop for the columns 
+//         nextBoard[r][c] = empty // make it empty (shown as lavenderblush)
+//     }
+// }
 
+// // display pieces up-next
+// function displayNext () {
+//     for(r=0; r<5; r++){
+//         for(c=0; c<5; c++){
+//             drawBox(c,r,nextBoard[r][c]); // c=x, r=y board[r][c] = empty (color = 'lavenderblush')
+//         }
+//     }
+// }
+
+// displayNext();
 // const pieces = [lTetro, jTetro, sTetro, zTetro, oTetro, iTetro, tTetro]
 // instantiating the colors; 
 const pieces = [ // update colors later
@@ -231,15 +246,12 @@ const pieces = [ // update colors later
     [iTetro, "#d9984c"],
     [tTetro, "#9e8470"]
 ];
-
 // randomize the pieces
 function randPieces() {
     let rand = Math.floor(Math.random()*pieces.length); // randomize all the pieces in the pieces array based on indices (includes color)
     return new Pieces(pieces[rand][0],pieces[rand][1]); // returns a new Piece object (randomized piece shape and color as the parameter passed through)
 }
-
 let n = randPieces(); // (n = new piece)
-
 
 // making the squares filled with colors now! 
 // get the coordinates/location of the units for live tetros
@@ -265,7 +277,6 @@ Pieces.prototype.show = function () {
 Pieces.prototype.hide = function () { // same logic but to make it empty/unfill it
     this.fill(empty)
 }
-
 // live piece to move down, check for collision here also (if no collision, continue movement)
 Pieces.prototype.down = function () {
     if(!this.collision(0,1,this.liveTetro)) { // undraw the piece first, then increment just the y position by 1, then draw the piece in the next position down
@@ -293,7 +304,6 @@ Pieces.prototype.right = function () {
         this.show();
     }
 }
-
 // piece to rotate
 // make it so that the walls locks in the pieces (so they don't protrude outside) - check for collision
 Pieces.prototype.rotate = function () {
@@ -317,7 +327,6 @@ Pieces.prototype.rotate = function () {
 }
 let score = 0;
 let message = document.querySelector("h4");
-let flush = document.getElementById("magic-butt");
 // score board & gameover function
 // make it so that once a row is all filled/taken: 1) that row is removed, score is counted, and we append a new row on top of the board
 // to keep score, must code somewhere to keep count of filled rows
@@ -326,7 +335,6 @@ Pieces.prototype.freeze = function() { // changing the colors of the board units
     for(r=0; r<this.liveTetro.length; r++) { // loop through all the board
         for(c=0; c<this.liveTetro.length; c++) { 
             if(!this.liveTetro[r][c]) { 
-                flush.style.display = "block"
                 continue; // skip the vacant squares
             } 
             if(this.y + r <0) { // reached the top
@@ -356,6 +364,7 @@ Pieces.prototype.freeze = function() { // changing the colors of the board units
         
     }
     drawBoard();
+    // displayNext();
     scoreDisplay.innerHTML = score;
 }
 // collision detection function 
@@ -398,8 +407,7 @@ function movementHandler(e) {
 }
 document.addEventListener("keydown", movementHandler);
 
-// start/pause button
-// const startBtn = document.querySelector('#start-button')
+// Date.now() source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now
 
 let start = Date.now();
 let gameOver = false;
@@ -412,11 +420,14 @@ function fall() {
     }
     if(!gameOver) {
         requestAnimationFrame(fall);
-    }
+    } 
 }
 
-
+function refresh() {
+    drawBoard();
+    gameOver = true;
+    score = 0;
+}
 
 startButt.addEventListener("click", fall);
-// freshButt.addEventListener("click", refresh);
-
+freshButt.addEventListener("click", refresh);

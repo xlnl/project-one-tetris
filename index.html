@@ -11,13 +11,17 @@
 <body>
     <h1>Toot Toot!</h1>
     <h4>Welcome to the bootiful game of Tootris!</h4>
-    <div id="magic-butt"></div>
     <container class="game-bg" id="game-board">
         <canvas id="game" width="240" height="480"></canvas>
         <container id="score-display">
+            <!-- <h5>Up Next: </h5>
+            <canvas width="120" height="120" id="up-next"></canvas> -->
             <div id="score-element">Score: <span id="score">0</span></div>
-            <div id="refresh-element"><button id="refresh-button">Refresh</button></div>
-            <div id="start-element"><button id="start-button">Start</button></div>
+            <div id="buttons">
+                <div id="refresh-element"><button id="refresh-button">Refresh</button></div>
+                <div id="start-element"><button id="start-button">Start</button></div>
+            </div>
+            </container>
         </container>
     </container>
     <script src="app.js"></script>
