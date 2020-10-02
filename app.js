@@ -319,7 +319,7 @@ Pieces.prototype.rotate = function () {
     } 
     if(!this.collision(bounce,0,turn)) { 
         this.hide();
-        this.x =- bounce;
+        this.x += bounce;
         this.tetroI = (this.tetroI + 1) % this.tetro.length; // tetro rotation index = (0+1)%4 = 1
         this.liveTetro = this.tetro[this.tetroI];
         this.show();
@@ -424,9 +424,7 @@ function fall() {
 }
 
 function refresh() {
-    drawBoard();
-    gameOver = true;
-    score = 0;
+    location.reload();
 }
 
 startButt.addEventListener("click", fall);

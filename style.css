@@ -1,6 +1,7 @@
 body { 
     background-image: url("https://images.pond5.com/toilet-bathroom-background-footage-086469151_prevstill.jpeg");
     font-family: 'Press Start 2P', cursive;
+    overflow: hidden;
 }
 h1, h4 {
     text-align: center;
