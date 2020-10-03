@@ -1,4 +1,4 @@
-// VARIABLES & CONSTANTS  -- LET'S DRAW
+// VARIABLES & CONSTANTS
 // the game's main piece, of which will be used to render + update (the canvas!)
 const game = document.getElementById("game");
 // this lets you draw and manipulate things on a canvas element in the game and includes info about colors, line width, fonts, and other graphic elements (the tool box!)
@@ -178,7 +178,6 @@ const tTetro = [
 ];
 
 // FUNCTIONS
-// it's drawing time! 
 // creating the squares using canvas - modularizing!
 function drawBox(x, y, color) {
     ctx.fillStyle = color;
@@ -271,7 +270,6 @@ Pieces.prototype.fill = function(color) { // in this case, fill is a method
 
 // score board & gameover function
 // make it so that once a row is all filled/taken: 1) that row is removed, score is counted, and we append a new row on top of the board
-// to keep score, must code somewhere to keep count of filled rows
 // freezing the pieces and detecting full rows
 let score = 0;
 let message = document.querySelector("h4");
@@ -303,6 +301,7 @@ Pieces.prototype.freeze = function() {
             for(let c=0; c<col; c++) {
                 board[0][c] = empty; // add another one
             }
+            // then, keep count of filled rows to add score
             score += 120
         }
         
@@ -312,11 +311,12 @@ Pieces.prototype.freeze = function() {
     scoreDisplay.innerHTML = score;
 }
 
-// movements! -> rotating function + movement functions + control function (to move the pieces) + timer function (to auto drop piece per second)
-// drawing (fill it with color to draw) and undrawing the pieces to the board (making it empty)
+// movements! 
+// drawing (fill it with color to draw) &
 Pieces.prototype.show = function () {
     this.fill(this.color); // if square is occupied or live, fill it with color (show it)
 }
+// undrawing the pieces to the board (making it empty)
 Pieces.prototype.hide = function () { // same logic but to make it empty/unfill it
     this.fill(empty)
 }
@@ -347,8 +347,7 @@ Pieces.prototype.right = function () {
         this.show();
     }
 }
-// piece to rotate
-// make it so that the walls locks in the pieces (so they don't protrude outside) - check for collision
+// piece to rotate - make it so that the walls locks in the pieces (so they don't protrude outside) - check for collision
 Pieces.prototype.rotate = function () {
     // tetroI = 0, starting rotation index 
     // tetro rotation index = (0+1)%4 = 1
