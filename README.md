@@ -43,9 +43,9 @@ I knew there was a way to do this sans HTML5 but I wanted to pursue the challeng
 
 Firstly, I wanted to draw the game on excel so I have a visual guide for when I draw through canvas. You can view that in my planning folder. Two main guides include: 
 * Overview of the game structure (size of game board, displays of buttons, and score board)
-![game wireframe]("/Planning/Tetris-Wireframing-MockUp.png")
+![game wireframe](/Planning/Tetris-Wireframing-MockUp.png)
 * Visual guide of all the game pieces in addition to their rotational arrays (utilizing booleans to display the actual pieces on the board)
-![game pieces]("/Planning/Tetris-Game-Piece-Details.png")
+![game pieces](/Planning/Tetris-Game-Piece-Details.png)
 
 ##### User Stories
 As a user, I expect to be able to move my pieces down, have the pieces locked at the bottom, have my score updated if I filled out a row using my pieces. If I am not able to fill up my rows and my pieces end up stacked on top, I expected to receive a "Game Over" alert.
