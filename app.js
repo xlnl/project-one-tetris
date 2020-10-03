@@ -1,22 +1,16 @@
 // VARIABLES & CONSTANTS
-// the game's main piece, of which will be used to render + update (the canvas!)
 const game = document.getElementById("game");
-// this lets you draw and manipulate things on a canvas element in the game and includes info about colors, line width, fonts, and other graphic elements (the tool box!)
 var ctx = game.getContext("2d");
 // const upNext = document.getElementById("up-next");
 // var nextCtx = upNext.getContext('2d');
 const startButt = document.getElementById("start-button");
 const freshButt = document.getElementById("refresh-button");
-// need to grab the score element to store the score after play completes a row/line
 const scoreDisplay = document.getElementById("score");
-// game board 
 // board dimensions 
 const row = 24;
 const col = 12;
-// empty squares/divs marked by white to match toilet?
 const box = 20;
 const empty = "white";
-// game pieces/tetrominoes (more details in "Tetris-Game-Piece-Details.png")
 // 0 = empty/false; 1 = live/true
 const lTetro = [
         [
@@ -83,7 +77,7 @@ const sTetro = [
             [1, 1, 0],
             [0, 1, 0]
         ]
-    ];
+];
 const zTetro = [
         [
             [1, 1, 0],
@@ -187,6 +181,7 @@ function drawBox(x, y, color) {
     // ctx.fillRect(4*20, 0*20, 20, 20)
     ctx.strokeRect(x*box, y*box, box, box);
 }
+
 // creating the board
 let board = [];
 for (let r=0; r<row; r++) { // for loop for the rows
@@ -195,6 +190,7 @@ for (let r=0; r<row; r++) { // for loop for the rows
         board[r][c] = empty // make it empty (shown as white)
     }
 }
+
 // now drawing the board
 function drawBoard() {
     for(let r=0; r<row; r++){
@@ -203,7 +199,9 @@ function drawBoard() {
         }
     }
 }
+
 drawBoard();
+
 // now drawing the pieces using constructor function 
 function Pieces(tetro, color) {
     this.tetro = tetro;
@@ -214,6 +212,7 @@ function Pieces(tetro, color) {
     this.x = 5; // 5 units right from origin 
     this.y = -1; // -1 units from origin  
 }
+
 // drawing displayNext board
 // let nextBoard = [];
 // for (r=0; r<5; r++) { // for loop for the rows
@@ -233,6 +232,7 @@ function Pieces(tetro, color) {
 // }
 
 // displayNext();
+
 // const pieces = [lTetro, jTetro, sTetro, zTetro, oTetro, iTetro, tTetro]
 // instantiating the colors; 
 const pieces = [ 
@@ -244,15 +244,16 @@ const pieces = [
     [iTetro, "#d9984c"],
     [tTetro, "#9e8470"]
 ];
+
 // randomize the pieces
 function randPieces() {
     let rand = Math.floor(Math.random()*pieces.length); // randomize all the pieces in the pieces array based on indices (includes color)
     return new Pieces(pieces[rand][0],pieces[rand][1]); // returns a new Piece object (randomized piece shape and color as the parameter passed through)
 }
+
 let n = randPieces(); // (n = new piece)
 
-// making the squares filled with colors now! 
-// get the coordinates/location of the units for live tetros
+// making the squares filled with colors now -> get the coordinates/location of the units for live tetros
 // function.prototype property => allows you to add new properties & methods to objects constructors: https://www.w3schools.com/js/js_object_prototypes.asp
 // instead of array.prototype.fill => function.prototype.fill works ???
 // the other way of class extend?? but with objects 
@@ -295,11 +296,11 @@ Pieces.prototype.freeze = function() {
         if(full) { // if row is full, move down the rows and add another row 
             for(let y=r; y>1; y--) {
                 for(c=0; c<col; c++) {
-                    board[y][c] = board[y-1][c];
+                    board[y][c] = board[y-1][c]; // delete one row
                 }
-            } // delete one row
-            for(let c=0; c<col; c++) {
-                board[0][c] = empty; // add another one
+            } 
+            for(let c=0; c<col; c++) { // add another one
+                board[0][c] = empty; 
             }
             // then, keep count of filled rows to add score
             score += 120
@@ -312,61 +313,14 @@ Pieces.prototype.freeze = function() {
 }
 
 // movements! 
-// drawing (fill it with color to draw) &
+// drawing (fill it with color to draw) 
 Pieces.prototype.show = function () {
     this.fill(this.color); // if square is occupied or live, fill it with color (show it)
 }
-// undrawing the pieces to the board (making it empty)
+
+// & undrawing the pieces to the board (making it empty)
 Pieces.prototype.hide = function () { // same logic but to make it empty/unfill it
     this.fill(empty)
-}
-// live piece to move down, check for collision here also (if no collision, continue movement)
-Pieces.prototype.down = function () {
-    if(!this.collision(0,1,this.liveTetro)) { // undraw the piece first, then increment just the y position by 1, then draw the piece in the next position down
-        this.hide(); // this will hide the piece before it so it doesn't look like it's lagging/getting bigger
-        this.y++;
-        this.show();
-    } else {
-        this.freeze(); 
-        n = randPieces();
-    }
-}
-// live piece to move left 
-Pieces.prototype.left = function () {
-    if(!this.collision(-1,0,this.liveTetro)) { // same logic as down method but decrement just the x position by 1
-        this.hide();
-        this.x--;
-        this.show();
-    }
-}
-// live piece to move right
-Pieces.prototype.right = function () {
-    if(!this.collision(1,0,this.liveTetro)) {// same logic as down method but increment just the x position by 1
-        this.hide(); 
-        this.x++;
-        this.show();
-    }
-}
-// piece to rotate - make it so that the walls locks in the pieces (so they don't protrude outside) - check for collision
-Pieces.prototype.rotate = function () {
-    // tetroI = 0, starting rotation index 
-    // tetro rotation index = (0+1)%4 = 1
-    let turn = this.tetro[(this.tetroI + 1) % this.tetro.length]; // declaring the next index of rotation array of relative live tetro by adding 1 index (first rotation) modulus live tetro index
-    let bounce = 0; // declaring position of bound, it's 0 unless the pieces go beyond the left and right walls
-    if(this.collision(0,0,turn)) { // check for collision after rotation
-        if(this.x > col/2) { // determines right or left wall boundaries
-            bounce = -1; // if collision detected: right wall, so have piece bounce left
-        } else {  
-            bounce = 1; // if collision detected: left wall, so have piece bounce right
-        }
-    } 
-    if(!this.collision(bounce,0,turn)) { 
-        this.hide();
-        this.x += bounce; // confusing at first! not =- 
-        this.tetroI = (this.tetroI + 1) % this.tetro.length; 
-        this.liveTetro = this.tetro[this.tetroI];
-        this.show();
-    }
 }
 
 // collision detection function 
@@ -392,6 +346,59 @@ Pieces.prototype.collision = function(x,y,p) { // need to check if piece (p) mov
     }
 }
 
+// live piece to move down, check for collision here also (if no collision, continue movement)
+Pieces.prototype.down = function () {
+    if(!this.collision(0,1,this.liveTetro)) { // undraw the piece first, then increment just the y position by 1, then draw the piece in the next position down
+        this.hide(); // this will hide the piece before it so it doesn't look like it's lagging/getting bigger
+        this.y++;
+        this.show();
+    } else {
+        this.freeze(); 
+        n = randPieces();
+    }
+}
+
+// live piece to move left 
+Pieces.prototype.left = function () {
+    if(!this.collision(-1,0,this.liveTetro)) { // same logic as down method but decrement just the x position by 1
+        this.hide();
+        this.x--;
+        this.show();
+    }
+}
+
+// live piece to move right
+Pieces.prototype.right = function () {
+    if(!this.collision(1,0,this.liveTetro)) {// same logic as down method but increment just the x position by 1
+        this.hide(); 
+        this.x++;
+        this.show();
+    }
+}
+// piece to rotate - make it so that the walls locks in the pieces (so they don't protrude outside) - check for collision
+
+Pieces.prototype.rotate = function () {
+    // tetroI = 0, starting rotation index 
+    // tetro rotation index = (0+1)%4 = 1
+    let turn = this.tetro[(this.tetroI + 1) % this.tetro.length]; // declaring the next index of rotation array of relative live tetro by adding 1 index (first rotation) modulus live tetro index
+    let bounce = 0; // declaring position of bound, it's 0 unless the pieces go beyond the left and right walls
+    if(this.collision(0,0,turn)) { // check for collision after rotation
+        if(this.x > col/2) { // determines right or left wall boundaries
+            bounce = -1; // if collision detected: right wall, so have piece bounce left
+        } else {  
+            bounce = 1; // if collision detected: left wall, so have piece bounce right
+        }
+    } 
+    if(!this.collision(bounce,0,turn)) { 
+        this.hide();
+        this.x += bounce; // confusing at first! not =- 
+        this.tetroI = (this.tetroI + 1) % this.tetro.length; 
+        this.liveTetro = this.tetro[this.tetroI];
+        this.show();
+    }
+}
+
+
 // NOTE: event.key instead of event.keyCode Description:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
 function movementHandler(e) {
     if(e.key == "ArrowLeft") {
@@ -407,10 +414,8 @@ function movementHandler(e) {
         n.down();
     }
 }
-document.addEventListener("keydown", movementHandler);
 
 // Date.now() source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now
-
 let start = Date.now();
 let gameOver = false;
 function fall() {
@@ -429,5 +434,6 @@ function refresh() {
     location.reload();
 }
 
+document.addEventListener("keydown", movementHandler);
 startButt.addEventListener("click", fall);
 freshButt.addEventListener("click", refresh);
