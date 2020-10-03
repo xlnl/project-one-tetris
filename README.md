@@ -38,7 +38,7 @@ pond5.com
 ```
 
 ### Approach:
-##### Overview
+#### Overview
 I knew there was a way to do this sans HTML5 but I wanted to pursue the challenge of learning more about the Canvas element since it will allow my game to be more efficient and my graphics easier to draw on Javascript. 
 
 Firstly, I wanted to draw the game on excel so I have a visual guide for when I draw through canvas. You can view that in my planning folder. Two main guides include: 
@@ -47,17 +47,17 @@ Firstly, I wanted to draw the game on excel so I have a visual guide for when I 
 * Visual guide of all the game pieces in addition to their rotational arrays (utilizing booleans to display the actual pieces on the board)
 ![game pieces](/Planning/Tetris-Game-Piece-Details.png)
 
-##### User Stories
+#### User Stories
 As a user, I expect to be able to move my pieces down, have the pieces locked at the bottom, have my score updated if I filled out a row using my pieces. If I am not able to fill up my rows and my pieces end up stacked on top, I expected to receive a "Game Over" alert.
 
-##### Development Plan
+#### Development Plan
 Then, it was all research! I wanted to see how others made their tetris games in addition to how canvas is utilized overall. I watched the [Canvas Crawler tutorial](https://github.com/TaylorDarneille/canvas-crawler) along with countless articles to see what would be the best practices for my own code. 
 
 After researching all that I could to have a better understanding of the important components, I began the planning and psueodocoding process.
 
 After learning more about out some cool elements including event.key (instead of event.keyCodes) and objects constructor, I set up my game and started on the MVP version first. 
 
-##### The MVP:
+#### The MVP:
 
 1. MVP ONE
    * The game board (grid level)
@@ -75,7 +75,7 @@ After learning more about out some cool elements including event.key (instead of
    * Start button
    * Refresh button
 
-##### Stretch Goals:
+#### Stretch Goals:
 For the next level/update, I'd like to explore how to add:
 
 1. An "Up Next" display showing the next game piece in the array
