@@ -17,7 +17,7 @@ My app must:
 
 ## Concept: About Tootris
 
-Tootris is another take of the game Tetris, in which the players must fill up all the rows to gain a score and minimize the amount of pieces they have on the game board. This involves strategy and technique as the pieces are randomized and set to automatically go down as the game starts. 
+Tootris is another take of the game Tetris, in which the players must fill up a row to gain a score and minimize the amount of pieces they have on the game board. This involves strategy and technique as the pieces are randomized and set to automatically go down as the game starts. 
 
 ### Technologies Used
 
@@ -55,7 +55,7 @@ Then, it was all research! I wanted to see how others made their tetris games in
 
 After researching all that I could to have a better understanding of the important components, I began the planning and psueodocoding process.
 
-After learning more about out some cool elements including event.key (instead of event.keyCodes) and objects constructor, I set up my game and started on the MVP version first. 
+After learning more about some cool elements including event.key (instead of event.keyCodes) and objects constructor, I set up my game and started on the MVP version one first. 
 
 #### The MVP:
 
@@ -84,6 +84,8 @@ For the next level/update, I'd like to explore how to add:
 ### Challenges
 
 A big chunk of my time was spent figuring out how to understand and work through the movements of the pieces (collision detection and freezing the pieces). Understanding the logic of this particular game and applying it through functions was a steep learning curve as well.
+
+Collision detection was a big mystery to me—and I'm still learning the ins and outs of it—but I'm happy with my progress so far with applying what I've learned to make the game work! 
 
 ## App Demo
 ### Click [here!](https://xlnl.github.io/project-one-tetris/)
