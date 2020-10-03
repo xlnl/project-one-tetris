@@ -258,8 +258,8 @@ let n = randPieces(); // (n = new piece)
 // instead of array.prototype.fill => function.prototype.fill works ???
 // the other way of class extend?? but with objects 
 Pieces.prototype.fill = function(color) { // in this case, fill is a method
-    for(r=0; r<this.liveTetro.length; r++) { // drawing the live tetro based on coordinates of pieces in the array
-        for(c=0; c<this.liveTetro.length; c++) { 
+    for(let r=0; r<this.liveTetro.length; r++) { // drawing the live tetro based on coordinates of pieces in the array
+        for(let c=0; c<this.liveTetro.length; c++) { 
             if(this.liveTetro[r][c]) { // only need to draw the live/true tetro, to get their shapes
                 drawBox(this.x + c, this. y + r, color); // starting position plus c & r increments based on size(in x,y coordinates) of piece shape
                 // r represents row increments; c represents column increments (both based on the width & height of the tetro)
@@ -276,8 +276,8 @@ Pieces.prototype.fill = function(color) { // in this case, fill is a method
 let score = 0;
 let message = document.querySelector("h4");
 Pieces.prototype.freeze = function() { 
-    for(r=0; r<this.liveTetro.length; r++) { // loop through all the board
-        for(c=0; c<this.liveTetro.length; c++) { 
+    for(let r=0; r<this.liveTetro.length; r++) { // loop through all the board
+        for(let c=0; c<this.liveTetro.length; c++) { 
             if(!this.liveTetro[r][c]) {  // skip the vacant squares
                 continue; 
             } 
@@ -291,16 +291,16 @@ Pieces.prototype.freeze = function() {
     } // removing filled row
     for (r=0; r<row; r++) { // loop over just the rows
         let full = true; 
-        for(c=0; c<col; c++) { // loop over the columns now
+        for(let c=0; c<col; c++) { // loop over the columns now
             full = full && (board[r][c] != empty); // row full AND not empty
         }
         if(full) { // if row is full, move down the rows and add another row 
-            for(y=r; y>1; y--) {
+            for(let y=r; y>1; y--) {
                 for(c=0; c<col; c++) {
                     board[y][c] = board[y-1][c];
                 }
             } // delete one row
-            for(c=0; c<col; c++) {
+            for(let c=0; c<col; c++) {
                 board[0][c] = empty; // add another one
             }
             score += 120
@@ -373,8 +373,8 @@ Pieces.prototype.rotate = function () {
 // collision detection function 
 Pieces.prototype.collision = function(x,y,p) { // need to check if piece (p) movement would collide using x,y coordinatoes 
     //(false - move); (true - freeze); check for vacant boxes
-    for(r=0; r<p.length; r++) {
-        for (c=0; c<p.length;c++) {
+    for(let r=0; r<p.length; r++) {
+        for (let c=0; c<p.length;c++) {
             if(!p[r][c]) { // if box is empty, continue moving
                 continue;
             }
