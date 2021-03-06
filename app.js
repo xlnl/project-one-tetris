@@ -255,8 +255,6 @@ let n = randPieces(); // (n = new piece)
 
 // making the squares filled with colors now -> get the coordinates/location of the units for live tetros
 // function.prototype property => allows you to add new properties & methods to objects constructors: https://www.w3schools.com/js/js_object_prototypes.asp
-// instead of array.prototype.fill => function.prototype.fill works ???
-// the other way of class extend?? but with objects 
 Pieces.prototype.fill = function(color) { // in this case, fill is a method
     for(let r=0; r<this.liveTetro.length; r++) { // drawing the live tetro based on coordinates of pieces in the array
         for(let c=0; c<this.liveTetro.length; c++) { 

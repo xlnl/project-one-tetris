@@ -81,7 +81,7 @@ For the next level/update, I'd like to explore how to add:
 1. An "Up Next" display showing the next game piece in the array
 2. Levels to the game so it can be more challenging the longer the user plays
 3. Have a scoreboard to store past scores and have it ordered by highest to lowest
-4. Have the gameboard transparent to make the game be more in line with the overally design theme
+4. Have the gameboard transparent to make the game be more in line with the overall design theme
 
 ### Challenges
 
