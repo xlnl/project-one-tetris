@@ -286,7 +286,7 @@ Pieces.prototype.freeze = function() {
             board[this.y+r][this.x+c] = this.color; // this will lock the piece based on square coordinates and its color
         }
     } // removing filled row
-    for (r=0; r<row; r++) { // loop over just the rows
+    for (let r=0; r<row; r++) { // loop over just the rows
         let full = true; 
         for(let c=0; c<col; c++) { // loop over the columns now
             full = full && (board[r][c] != empty); // row full AND not empty
